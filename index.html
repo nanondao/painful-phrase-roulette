@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>痛いセリフルーレット</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; }
+    #serifu { margin: 2rem 0; font-size: 1.5rem; color: #e91e63; }
+    button { font-size: 1.2rem; padding: 0.5rem 1rem; }
+  </style>
+</head>
+<body>
+  <h1>痛いセリフルーレット</h1>
+  <p id="serifu">ボタンを押すと痛いセリフが生成されます</p>
+  <button id="generateBtn">更新</button>
+
+  <script>
+    document.getElementById("generateBtn").addEventListener("click", async () => {
+      document.getElementById("serifu").innerText = "生成中...";
+      const res = await fetch("/api/generate");
+      const data = await res.json();
+      document.getElementById("serifu").innerText = data.text;
+    });
+  </script>
+</body>
+</html>
