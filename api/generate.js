@@ -9,15 +9,20 @@ export default async function handler(req, res) {
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: prompt }],
         max_tokens: 50
       })
     });
 
-    const data = await apiResponse.json();
+    if (!apiResponse.ok) {
+      const errorDetails = await apiResponse.text();
+      console.error("OpenAI API returned error:", errorDetails);
+      return res.status(apiResponse.status).json({ text: "OpenAI APIエラー発生" });
+    }
 
-    console.log("OpenAI API response:", data);  // ここでAPIの返答をログに出す
+    const data = await apiResponse.json();
+    console.log("OpenAI API response:", data);
 
     if (!data.choices || !data.choices[0] || !data.choices[0].message) {
       return res.status(500).json({ text: "APIの応答が正しくありません。" });
@@ -28,4 +33,4 @@ export default async function handler(req, res) {
     console.error("Error fetching OpenAI API:", error);
     res.status(500).json({ text: "サーバーでエラーが発生しました。" });
   }
-}//redeproy
+}
