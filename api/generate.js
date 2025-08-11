@@ -28,4 +28,4 @@ export default async function handler(req, res) {
     console.error("Error fetching OpenAI API:", error);
     res.status(500).json({ text: "サーバーでエラーが発生しました。" });
   }
-}
+}//redeproy
